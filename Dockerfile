@@ -119,5 +119,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libunwind-dev libunwind-dev:i386 && \
     apt-get clean && rm -rf /var/lib/lists/*
 
-# 13. 环境变量
+# 13. env
 ENV REPO_URL="https://mirrors.tuna.tsinghua.edu.cn/git/git-repo"
