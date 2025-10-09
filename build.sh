@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
-podman build -t ghcr.io/w-mai/vela-builder:$(TZ='Asia/Shanghai' date +%Y%m%d%H%M) .
+TIMESTAMP=$(TZ='Asia/Shanghai' date +%Y%m%d%H%M)
+PACKAGE=ghcr.io/w-mai/vela-builder
+podman build -t $PACKAGE:$TIMESTAMP .
+podman build -t $PACKAGE:latest .
+
+podman push $PACKAGE:$TIMESTAMP
+podman push $PACKAGE:latest
