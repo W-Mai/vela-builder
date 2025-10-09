@@ -75,7 +75,7 @@ RUN pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -U \
 # 5. repo
 RUN curl -fsSL https://storage.googleapis.com/git-repo-downloads/repo -o /usr/bin/repo && \
     sed -i 's|https://gerrit.googlesource.com/git-repo|https://mirrors.ustc.edu.cn/aosp/git-repo|g' /usr/bin/repo && \
-    chmod +x /usr/bin/repo && \
+    chmod +x /usr/bin/repo
 
 # 6. git
 RUN git config --global core.compression -1 && \
