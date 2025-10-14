@@ -26,6 +26,7 @@ function vela-builder
         podman exec -it $container_name bash 2>/dev/null; or \
         podman run -it --rm \
                --name $container_name \
+               --cap-add=SYS_PTRACE \
                -v (pwd):(pwd):Z \
                -v $ssh_src:$ssh_dst:Z \
                -w (pwd) \
@@ -36,6 +37,7 @@ function vela-builder
         podman exec -i $container_name bash -c "$cmd" 2>/dev/null; or \
         podman run -i --rm \
                --name $container_name \
+               --cap-add=SYS_PTRACE \
                -v (pwd):(pwd):Z \
                -v $ssh_src:$ssh_dst:Z \
                -w (pwd) \

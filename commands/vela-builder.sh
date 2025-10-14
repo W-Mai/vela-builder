@@ -25,6 +25,7 @@ if [[ $# -eq 0 ]]; then
     podman exec -it "$container_name" bash 2>/dev/null || \
     podman run -it --rm \
            --name "$container_name" \
+           --cap-add=SYS_PTRACE \
            -v "${PWD}:${PWD}:Z" \
            -v "${ssh_src}:${ssh_dst}:Z" \
            -w "${PWD}" \
@@ -35,6 +36,7 @@ else
     podman exec -i "$container_name" bash -c "$cmd" 2>/dev/null || \
     podman run -i --rm \
            --name "$container_name" \
+           --cap-add=SYS_PTRACE \
            -v "${PWD}:${PWD}:Z" \
            -v "${ssh_src}:${ssh_dst}:Z" \
            -w "${PWD}" \
