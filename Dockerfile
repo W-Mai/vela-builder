@@ -46,7 +46,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libmp3lame-dev \
         libpng-dev libjpeg-dev libfreetype-dev libsdl2-dev \
         libwayland-dev libxkbcommon-dev \
-        libavformat-dev libavcodec-dev libswscale-dev libavutil-dev && \
+        libavformat-dev libavcodec-dev libswscale-dev libavutil-dev \
+        g++-11-multilib gcc-11-multilib lib32asan6 lib32gcc-11-dev \
+        lib32stdc++-11-dev libimagequant0 libx32asan6 libx32gcc-11-dev \
+        libx32stdc++-11-dev g++-multilib gcc-multilib libfreetype6-dev \ 
+        pkg-config && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ## i386
@@ -62,7 +66,7 @@ RUN dpkg --add-architecture i386 && apt-get update && \
         libpng-dev:i386 libjpeg-dev:i386 libfreetype-dev:i386 libsdl2-dev:i386 \
         libwayland-dev:i386 libxkbcommon-dev:i386 \
         libavformat-dev:i386 libavcodec-dev:i386 libswscale-dev:i386 libavutil-dev:i386 \
-        libunwind-dev:i386 && \
+        libunwind-dev:i386 libfreetype6-dev:i386 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 4. Python QA / Dev and tuna source
@@ -70,7 +74,8 @@ RUN pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -U \
         Pillow pytest==6.2.4 pytest-repeat==0.9.1 pytest-json==0.4.0 \
         pexpect matplotlib numpy asyncio pyserial html-table esptool \
         jinja2 galaxy-fds-sdk \
-        pypng lz4 kconfiglib
+        pypng lz4 kconfiglib && \
+    pip3 install --upgrade gcovr
 
 # 5. repo
 RUN curl -fsSL https://storage.googleapis.com/git-repo-downloads/repo -o /usr/bin/repo && \
@@ -79,7 +84,8 @@ RUN curl -fsSL https://storage.googleapis.com/git-repo-downloads/repo -o /usr/bi
 
 # 6. git
 RUN git config --global core.compression -1 && \
-    git config --global color.ui auto
+    git config --global color.ui auto && \
+    git config --global --add safe.directory '*'
 
 # 7. protobuf
 RUN cd /tmp && \
@@ -98,8 +104,6 @@ RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         gcc-13 g++-13 g++-13-multilib cmake && \
-    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 100 && \
-    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 100 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 12. Utils
@@ -111,13 +115,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libc++-dev libc++abi-dev \
         ruby-full gcovr \
         libinput-dev libxkbcommon-dev libdrm-dev \
-        wayland-protocols libwayland-dev libwayland-bin && \
+        wayland-protocols libwayland-dev libwayland-bin \
+        pngquant && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # fix libunwind-dev installation problem
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libunwind-dev libunwind-dev:i386 && \
     apt-get clean && rm -rf /var/lib/lists/*
+
+# update update-alternatives
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 100 && \
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 100 && \
+    update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-13 100
 
 # 13. env
 ENV REPO_URL="https://mirrors.tuna.tsinghua.edu.cn/git/git-repo"
