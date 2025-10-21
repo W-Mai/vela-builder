@@ -116,13 +116,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ruby-full gcovr \
         libinput-dev libxkbcommon-dev libdrm-dev \
         wayland-protocols libwayland-dev libwayland-bin \
-        pngquant && \
+        pngquant fish && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # fix libunwind-dev installation problem
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libunwind-dev libunwind-dev:i386 && \
     apt-get clean && rm -rf /var/lib/lists/*
+
+# install xlunch
+RUN curl -L https://raw.githubusercontent.com/w-mai/xlunch/main/install.fish | fish
 
 # update update-alternatives
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 100 && \
