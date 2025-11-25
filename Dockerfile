@@ -116,7 +116,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ruby-full gcovr \
         libinput-dev libxkbcommon-dev libdrm-dev \
         wayland-protocols libwayland-dev libwayland-bin \
-        pngquant fish && \
+        pngquant fish gdb-multiarch && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # fix libunwind-dev installation problem
