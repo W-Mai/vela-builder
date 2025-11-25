@@ -66,14 +66,29 @@ brew install podman
 
 # Installation
 
-## bash
+## Quick install
 
 ```bash
-cp commands/vela-builder.sh ~/.local/bin/
+curl -fsSL https://raw.githubusercontent.com/W-Mai/vela-builder/main/install.sh | bash
 ```
 
-## fish
+### Advanced options
+
+The script accepts:
+- `--bash-only` / `--fish-only` – install a single shell wrapper
+- `--bash-dir <path>` / `--fish-dir <path>` – override install locations (defaults: `~/.local/bin` and `~/.config/fish/functions`)
+- `VELA_BUILDER_RAW=<url>` – custom base URL when hosting your own copy
+
+## Manual install
+
+### bash
 
 ```bash
-cp commands/vela-builder.fish ~/.config/fish/functions  
+cp commands/vela-builder.sh ~/.local/bin/vela-builder
+```
+
+### fish
+
+```bash
+cp commands/vela-builder.fish ~/.config/fish/functions
 ```
